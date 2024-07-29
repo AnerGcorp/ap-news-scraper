@@ -3,7 +3,7 @@
 
 tasks:
   Scraper:
-    shell: python -m robocorp.tasks run main.py -t scraper ${SEARCH_PHRASE} ${MONTHS}
+    shell: python -m robocorp.tasks run main.py -t scraper "${SEARCH_PHRASE}" "${MONTHS}"
 
 
 environmentConfigs:
