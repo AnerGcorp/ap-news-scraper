@@ -6,15 +6,15 @@ channels:
   - conda-forge
 
 dependencies:
-  - python=3.10.12                # https://pyreadiness.org/3.10
-  - pip=23.2.1                    # https://pip.pypa.io/en/stable/news
+  - python=3.12.3                # https://pyreadiness.org/3.12
+  - pip=24.1.2                    # https://pip.pypa.io/en/stable/news
   - robocorp-truststore=0.8.0     # https://pypi.org/project/robocorp-truststore/
   - pip:
     - rpaframework==28.5.1        # https://rpaframework.org/releasenotes.html
     - robocorp==2.0.1             # https://pypi.org/project/robocorp
     - robocorp-browser==2.3.3     # https://pypi.org/project/robocorp-browser
-    - selenium
-    - pandas
-    - openpyxl
-    - webdriver-manager
-    - beautifulsoup4
+    - selenium==4.23.1
+    - pandas==2.2.2
+    - openpyxl==3.1.5
+    - webdriver-manager==4.0.2
+    - beautifulsoup4==4.12.3
