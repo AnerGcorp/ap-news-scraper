@@ -38,9 +38,8 @@ def extract_info(html_content):
         picture_element = soup.find('img', class_='Image')
         picture_url = picture_element['src'] if picture_element else ''
     except AttributeError as e:
-        print(f"Error extracting picture: {e}")
         picture_url = ''
-
+        
     return {
         'title': title,
         'description': description,

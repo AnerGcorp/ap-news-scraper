@@ -76,7 +76,7 @@ class NewsScraper:
             count_phases = count_phrases(title, description, self.search_phrase)
             contains_money = extract_money(title) or extract_money(description)
             image_url = article.get('image')
-            if image_url != '' or image_url != None:
+            if image_url != '':
                 image_filename = f"{title[:10].strip()}.jpg"
                 image_filename = image_filename.replace(" ", "_")
                 image_urls.append((image_url, image_filename))
