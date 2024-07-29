@@ -2,8 +2,10 @@ import sys
 import logging
 from logs import setup_logger
 from src.news_scraper import NewsScraper
+from robocorp.tasks import task
 
-def main(search_phrase, months):
+@task
+def scraper(search_phrase, months):
     setup_logger()
     logger = logging.getLogger(__name__)
 
@@ -21,4 +23,4 @@ if __name__ == "__main__":
 
     search_phrase = sys.argv[1]
     months = int(sys.argv[2])
-    main(search_phrase, months)
+    scraper(search_phrase, months)
