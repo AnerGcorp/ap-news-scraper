@@ -25,7 +25,7 @@ class NewsScraper:
             self.selenium.sort("Newest")
            
             articles_list = []
-            articles = self.selenium.get_news_articles(self.search_phrase)
+            articles = self.selenium.get_news_articles()
             articles_list.extend(self.get_articles_list(articles))
             
             months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
@@ -34,7 +34,7 @@ class NewsScraper:
                     next = self.selenium.next_page()
                     if not next:
                         break
-                    articles = self.selenium.get_news_articles(self.search_phrase)
+                    articles = self.selenium.get_news_articles()
                     if not articles:
                         break
                     articles_list.extend(self.get_articles_list(articles))
