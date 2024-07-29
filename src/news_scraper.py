@@ -92,8 +92,8 @@ class NewsScraper:
                 'contains_money': contains_money
             })
         self.logger.info(f"Total articles processed: {len(data)}")
-        self.info(f"Total images to download: {len(image_urls)}")
-        self.info("Downloading images...")
+        self.logger.info(f"Total images to download: {len(image_urls)}")
+        self.logger.info("Downloading images...")
         save_images_with_threadpoolexecutor(image_urls)
-        self.info("Saving data to Excel...")
+        self.logger.info("Saving data to Excel...")
         save_to_excel(data, f"{self.search_phrase}_news.xlsx")
