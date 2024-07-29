@@ -23,3 +23,7 @@ dist/
 build/
 egg-info/
 pip-wheel-metadata/
+
+*.log
+*.log.*
+output/*
