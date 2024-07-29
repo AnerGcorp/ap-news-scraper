@@ -11,7 +11,7 @@ import time
 
 
 class SeleniumWrapper:
-    def __init__(self, headless=False):
+    def __init__(self, headless=True):
         options = webdriver.ChromeOptions()
         if headless:
             options.add_argument('headless')
