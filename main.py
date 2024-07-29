@@ -1,3 +1,4 @@
+import sys
 import logging
 from logs import setup_logger
 from src.news_scraper import NewsScraper
@@ -14,6 +15,10 @@ def main(search_phrase, months):
 
 if __name__ == "__main__":
     # Example parameters, these would be provided by Robocloudworkitem in real case scenario
-    search_phrase = "technology"
-    months = 1
+    if len(sys.argv) < 3:
+        print("Usage: python main.py <search_phrase> <months>")
+        sys.exit(1)
+
+    search_phrase = sys.argv[1]
+    months = int(sys.argv[2])
     main(search_phrase, months)

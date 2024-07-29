@@ -1,0 +1,6 @@
+tasks:
+  - name: Run AP News Scraper
+    python: main.py
+    arguments:
+      - ${SEARCH_PHRASE}
+      - ${MONTHS}
