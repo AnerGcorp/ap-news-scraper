@@ -1,6 +1,9 @@
 tasks:
-  - name: Run AP News Scraper
-    python: main.py
-    arguments:
-      - ${SEARCH_PHRASE}
-      - ${MONTHS}
+  - name: Install Dependencies
+    pip:
+      requirements: requirements.txt
+
+  - name: Run News Scraper
+    command: python main.py ${SEARCH_PHRASE} ${MONTHS}
+    env:
+      PYTHONPATH: ${PYTHONPATH}
