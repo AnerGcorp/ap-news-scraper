@@ -9,7 +9,7 @@ def scraper():
     setup_logger()
     logger = logging.getLogger(__name__)
 
-    search_phrase = os.getenv('SEARCH_PHRASE')
+    search_phrase = os.getenv('SEARCH_PHRASE', "technology")
     months = int(os.getenv('MONTHS', '1'))  # Default to 1 month if MONTHS environment variable not set
 
     logger.info(f"Starting the news scraper...")
