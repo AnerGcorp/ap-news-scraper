@@ -18,44 +18,35 @@ class NewsScraper:
         self.logger = logging.getLogger(__name__)
 
     def run(self):
-        try:
-            self.selenium.open_page(Config.NEWS_URL)
-            self.selenium.accept_cookies()
-            self.selenium.search(self.search_phrase)
-            self.selenium.sort("Newest")
-           
-            articles_list = []
+        self.selenium.open_page(Config.NEWS_URL)
+        self.selenium.accept_cookies()
+        self.selenium.search(self.search_phrase)
+        self.selenium.sort("Newest")
+        
+        articles_list = []
+        articles = self.selenium.get_news_articles()
+        articles_list.extend(self.get_articles_list(articles))
+        
+        months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
+        while self.months >= months:
+            next = self.selenium.next_page()
+            if not next:
+                break
             articles = self.selenium.get_news_articles()
+            if not articles:
+                break
             articles_list.extend(self.get_articles_list(articles))
             
             months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
-            while self.months >= months:
-                try:
-                    next = self.selenium.next_page()
-                    if not next:
-                        break
-                    articles = self.selenium.get_news_articles()
-                    if not articles:
-                        break
-                    articles_list.extend(self.get_articles_list(articles))
-                    
-                    months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
-                    self.logger.info(f"Checking the month difference of last new in the page: {months}")
-                    self.selenium.check_donation_and_close()
+            self.logger.info(f"Checking the month difference of last new in the page: {months}")
+            self.selenium.check_donation_and_close()
 
-                    self.logger.info(f"Total articles scraped so far: {len(articles_list)}")
-                except Exception as e:
-                    self.logger.error(f"Error while getting news articles: {e}")
-                    break
+            self.logger.info(f"Total articles scraped so far: {len(articles_list)}")
             
-            self.process_articles(articles_list)
+        
+        self.process_articles(articles_list)
 
-        except Exception as e:
-            # general case expected && unexpected errors
-            # if the internet is down or cut off we get unexpected errors, or if the server is down ...
-            self.logger.error(f"Error scraping news: {e}")
-        finally:
-            self.selenium.close()
+        self.selenium.close()
     
     def get_articles_list(self, articles):
         self.logger.info("Extracting articles information...")
