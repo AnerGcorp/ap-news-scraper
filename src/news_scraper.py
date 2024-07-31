@@ -9,6 +9,7 @@ from src.utils import (
     calculate_month_difference)
 from config.config import Config
 import logging
+from urllib3.exceptions import NewConnectionError
 
 class NewsScraper:
     def __init__(self, search_phrase, months):
@@ -28,25 +29,33 @@ class NewsScraper:
         articles_list.extend(self.get_articles_list(articles))
         
         months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
-        while self.months >= months:
-            next = self.selenium.next_page()
-            if not next:
-                break
-            articles = self.selenium.get_news_articles()
-            if not articles:
-                break
-            articles_list.extend(self.get_articles_list(articles))
-            
-            months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
-            self.logger.info(f"Checking the month difference of last new in the page: {months}")
-            self.selenium.check_donation_and_close()
 
-            self.logger.info(f"Total articles scraped so far: {len(articles_list)}")
+        try:
+            while self.months >= months:
+                next = self.selenium.next_page()
+                if not next:
+                    self.selenium.close()
+                    break
+                articles = self.selenium.get_news_articles()
+                if not articles:
+                    self.selenium.close()
+                    break
+                articles_list.extend(self.get_articles_list(articles))
+                
+                months = calculate_month_difference(extract_date(articles[-1].get_attribute('outerHTML')))
+                self.logger.info(f"Checking the month difference of last new in the page: {months}")
+                self.selenium.check_donation_and_close()
+
+                self.logger.info(f"Total articles scraped so far: {len(articles_list)}")
+        except NewConnectionError:
+            self.logger.info(f"Reached the end of the search results.")
+        except Exception as e:
+            self.logger.error(f"Error scraping news: {e}")
+        finally:
+            self.selenium.close()
             
-        
         self.process_articles(articles_list)
 
-        self.selenium.close()
     
     def get_articles_list(self, articles):
         self.logger.info("Extracting articles information...")
