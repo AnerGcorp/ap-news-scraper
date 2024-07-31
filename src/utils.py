@@ -109,11 +109,11 @@ def save_image(url, filename):
         return
     
     # Ensure output directory and subdirectory 'images' exist
-    output_path = os.path.join(Config.OUTPUT_DIR, "images")
-    Path(output_path).mkdir(parents=True, exist_ok=True)
+    # output_path = os.path.join(Config.OUTPUT_DIR, "images")
+    # Path(output_path).mkdir(parents=True, exist_ok=True)
 
     response = requests.get(url)
-    image_path = os.path.join(output_path, filename)
+    image_path = os.path.join(Config.OUTPUT_DIR, filename)
     with open(image_path, 'wb') as f:
         f.write(response.content)
 
